@@ -5,4 +5,4 @@ router.get('/', async (req, res) => {
   res.status(200).send({ message: 'API running success!' })
 });
 
-module.exports = app => app.use('/', router);
+module.exports = router;

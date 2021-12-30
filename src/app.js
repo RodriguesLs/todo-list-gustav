@@ -1,12 +1,23 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const PORT = process.env.PORT || 3000;
+const { sequelize } = require('./models');
+
+const taskRouter = require('./routes/task_routes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-require('./router')(app);
+sequelize.sync().then(() => {
+  console.log('Connect into db');
+});
 
-app.listen(3000, () => {
-  console.log('API is running in:', 3000);
+app.use(
+  require('./router'),
+  taskRouter
+);
+
+app.listen(PORT, () => {
+  console.log('API is running in:', PORT);
 });
