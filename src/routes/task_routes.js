@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { task } = require('../models');
+const appController = require("../controllers/applicationController")
 
 router.get('/tasks', (req, res) => {
-  task.findAll({ order: [ ['id'] ] }).then(tasks => {
-    res.status(200).send({ tasks });
-  });
+  appController.all(res)
 });
 
 router.get('/tasks/:id', (req, res) => {
@@ -23,7 +22,7 @@ router.post('/tasks', async (req, res) => {
 });
 
 router.put('/tasks/:id', async (req, res) => {
-  await task.update({ name: req.body.name }, {
+  await task.update(req.body, {
     where: {
       id: req.params.id
     }
@@ -40,6 +39,5 @@ router.put('/tasks/:id', async (req, res) => {
     );
   });
 });
-
 
 module.exports = router;
